@@ -1,82 +1,41 @@
-# This file is used to ignore files which are generated
-# ----------------------------------------------------------------------------
+# Qt编译产物
+build-*                   # 忽略Qt Creator默认的构建目录（如build-myproject-Desktop_Qt_5_15_2_MinGW_64_bit-Debug）
+*.o                       # 目标文件
+*.obj                     # Windows目标文件
+*.exe                     # 可执行文件（Windows）
+*.exe~                    # 临时可执行文件
+*.out                     # 可执行文件（Linux/Mac）
+*.app                     # Mac应用程序包
+*.so                      # Linux共享库
+*.dylib                   # Mac动态库
+*.a                       # 静态库
+*.lib                     # Windows静态库
+.moc                      # moc生成的中间文件目录
+.qmake.stash              # qmake缓存文件
+Makefile                  # 自动生成的Makefile（若用qmake）
+Makefile.*                # 带后缀的Makefile
 
-*~
-*.autosave
-*.a
-*.core
-*.moc
-*.o
-*.obj
-*.orig
-*.rej
-*.so
-*.so.*
-*_pch.h.cpp
-*_resource.rc
-*.qm
-.#*
-*.*#
-core
-!core/
-tags
-.DS_Store
-.directory
-*.debug
-Makefile*
-*.prl
-*.app
-moc_*.cpp
-ui_*.h
-qrc_*.cpp
-Thumbs.db
-*.res
-*.rc
-/.qmake.cache
-/.qmake.stash
+# Qt Creator配置（本地用户信息，不应共享）
+*.pro.user                # 包含本地路径、构建配置等，每个开发者不同
+*.pro.user.*              # 不同版本Qt生成的.user文件
+*.creator                 # Qt Creator项目文件（旧版本）
+*.creator.user            # 旧版本用户配置
+*.files                   # 旧版本文件列表
+*.includes                # 旧版本包含路径
 
-# qtcreator generated files
-*.pro.user*
-*.qbs.user*
-CMakeLists.txt.user*
+# 资源和临时文件
+*.qm                      # 翻译二进制文件（可忽略，如需共享则删除此行）
+*.qrc.d                   # qrc编译中间目录
+*.orig                    # 合并冲突时的备份文件
+*.rej                     # 合并冲突拒绝文件
+.DS_Store                 # Mac系统文件
+Thumbs.db                 # Windows缩略图缓存
+*.log                     # 日志文件
+*.tmp                     # 临时文件
 
-# xemacs temporary files
-*.flc
-
-# Vim temporary files
-.*.swp
-
-# Visual Studio generated files
-*.ib_pdb_index
-*.idb
-*.ilk
-*.pdb
-*.sln
-*.suo
-*.vcproj
-*vcproj.*.*.user
-*.ncb
-*.sdf
-*.opensdf
-*.vcxproj
-*vcxproj.*
-
-# MinGW generated files
-*.Debug
-*.Release
-
-# Python byte code
-*.pyc
-
-# Binaries
-# --------
-*.dll
-*.exe
-
-# Directories with generated files
-.moc/
-.obj/
-.pch/
-.rcc/
-.uic/
-/build*/
+# CMake相关（若使用CMake构建）
+CMakeFiles/
+CMakeCache.txt
+cmake_install.cmake
+install_manifest.txt
+CTestTestfile.cmake

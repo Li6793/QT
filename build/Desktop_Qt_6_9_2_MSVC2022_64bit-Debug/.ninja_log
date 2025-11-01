@@ -1,0 +1,9 @@
+# ninja log v6
+17	432	7837181101528758	Clementine_autogen/timestamp	2414143ca2c55b8e
+17	432	7837181101528758	Clementine_autogen/mocs_compilation.cpp	2414143ca2c55b8e
+17	432	7837181101528758	C:/QT-repository/Clementine/build/Desktop_Qt_6_9_2_MSVC2022_64bit-Debug/Clementine_autogen/timestamp	2414143ca2c55b8e
+17	432	7837181101528758	C:/QT-repository/Clementine/build/Desktop_Qt_6_9_2_MSVC2022_64bit-Debug/Clementine_autogen/mocs_compilation.cpp	2414143ca2c55b8e
+436	2711	7837181102341255	CMakeFiles/Clementine.dir/Clementine_autogen/mocs_compilation.cpp.obj	735a37d1496f279c
+453	2716	7837181102521485	CMakeFiles/Clementine.dir/clementine.cpp.obj	68de3eb584135c7b
+442	2721	7837181102406453	CMakeFiles/Clementine.dir/main.cpp.obj	f13699ed3c024a0d
+2721	6670	7837181125201465	C:/QT-repository/Clementine/output/windows/Debug/bin/Clementine.exe	e4efc39b177b81e7
