@@ -1,77 +1,129 @@
 cmake_minimum_required(VERSION 3.16)
 
-project(Clementine VERSION 0.1 LANGUAGES CXX)
-
-set(CMAKE_AUTOUIC ON)
-set(CMAKE_AUTOMOC ON)
-set(CMAKE_AUTORCC ON)
+project(Clementine VERSION 1.0 LANGUAGES CXX)
 
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
-find_package(QT NAMES Qt6 Qt5 REQUIRED COMPONENTS Widgets LinguistTools)
-find_package(Qt${QT_VERSION_MAJOR} REQUIRED COMPONENTS Widgets LinguistTools)
+set(CMAKE_AUTOMOC ON)
+set(CMAKE_AUTOUIC ON)
+set(CMAKE_AUTORCC ON)
 
-set(TS_FILES Clementine_zh_CN.ts)
-
-set(PROJECT_SOURCES
-        main.cpp
-        clementine.cpp
-        clementine.h
-        clementine.ui
-        ${TS_FILES}
+find_package(Qt6 REQUIRED COMPONENTS
+    Core
+    Gui
+    Widgets
+    Network
+    Sql
+    SerialPort
 )
 
-if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
-    qt_add_executable(Clementine
-        MANUAL_FINALIZATION
-        ${PROJECT_SOURCES}
-    )
-# Define target properties for Android with Qt 6 as:
-#    set_property(TARGET Clementine APPEND PROPERTY QT_ANDROID_PACKAGE_SOURCE_DIR
-#                 ${CMAKE_CURRENT_SOURCE_DIR}/android)
-# For more information, see https://doc.qt.io/qt-6/qt-add-executable.html#target-creation
 
-    qt_create_translation(QM_FILES ${CMAKE_SOURCE_DIR} ${TS_FILES})
+set(OUTPUT_ROOT ${CMAKE_SOURCE_DIR}/output)
+
+if(WIN32)
+    set(PLATFORM_DIR "windows")
+elseif(UNIX AND NOT APPLE)
+    set(PLATFORM_DIR "linux")
+elseif(APPLE)
+    set(PLATFORM_DIR "macos")
+endif()
+
+
+if(DEFINED CMAKE_BUILD_TYPE AND NOT CMAKE_BUILD_TYPE STREQUAL "")
+    set(BUILD_TYPE_DIR ${CMAKE_BUILD_TYPE})
 else()
-    if(ANDROID)
-        add_library(Clementine SHARED
-            ${PROJECT_SOURCES}
+
+    set(BUILD_TYPE_DIR "release")
+endif()
+
+set(OUTPUT_DIR ${OUTPUT_ROOT}/${PLATFORM_DIR}/${BUILD_TYPE_DIR})
+
+
+set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${OUTPUT_DIR}/bin)
+set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${OUTPUT_DIR}/lib)
+set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${OUTPUT_DIR}/lib)
+
+
+set(SOURCES
+    main.cpp
+    clementine.cpp
+)
+
+set(HEADERS
+    clementine.h
+)
+
+set(UIS
+    clementine.ui
+)
+
+set(RESOURCES
+
+)
+
+
+qt_add_executable(${PROJECT_NAME}
+    ${SOURCES}
+    ${HEADERS}
+    ${UIS}
+    ${RESOURCES}
+)
+
+target_link_libraries(${PROJECT_NAME} PRIVATE
+    Qt6::Core
+    Qt6::Gui
+    Qt6::Widgets
+    Qt6::Network
+    Qt6::Sql
+    Qt6::SerialPort
+)
+
+set_target_properties(${PROJECT_NAME} PROPERTIES
+    WIN32_EXECUTABLE ON
+    MACOSX_BUNDLE ON
+)
+
+
+
+
+function(qt_deploy_target target)
+    if(WIN32)
+        find_program(WINDEPLOYQT_EXE windeployqt
+            HINTS
+                "C:/Qt/6.9.2/msvc2022_64/bin"
+                "${QT_BIN_DIR}"
+                "$ENV{QTDIR}/bin"
         )
-# Define properties for Android with Qt 5 after find_package() calls as:
-#    set(ANDROID_PACKAGE_SOURCE_DIR "${CMAKE_CURRENT_SOURCE_DIR}/android")
-    else()
-        add_executable(Clementine
-            ${PROJECT_SOURCES}
-        )
+        if(WINDEPLOYQT_EXE)
+            # message(STATUS "找到64位windeployqt: ${WINDEPLOYQT_EXE}")
+
+            if(CMAKE_BUILD_TYPE STREQUAL "Debug" OR
+               (DEFINED CMAKE_CONFIGURATION_TYPES AND "Debug" IN_LIST CMAKE_CONFIGURATION_TYPES))
+                set(DEPLOY_MODE --debug)
+                # message(STATUS "64位Debug模式：部署带d后缀的Qt库")
+            else()
+                set(DEPLOY_MODE --release)
+                # message(STATUS "64位Release模式：部署不带d后缀的Qt库")
+            endif()
+
+            add_custom_command(TARGET ${target} POST_BUILD
+                COMMAND ${WINDEPLOYQT_EXE}
+                    --verbose 1
+                    ${DEPLOY_MODE}
+                    --no-compiler-runtime
+                    --dir $<TARGET_FILE_DIR:${target}>
+                    $<TARGET_FILE:${target}>
+                VERBATIM
+                COMMENT "64位Qt依赖部署完成：$<TARGET_FILE_DIR:${target}>"
+            )
+        else()
+            message(FATAL_ERROR "未找到64位windeployqt，请检查Qt 64位版本是否安装")
+        endif()
     endif()
+endfunction()
 
-    qt5_create_translation(QM_FILES ${CMAKE_SOURCE_DIR} ${TS_FILES})
-endif()
 
-target_link_libraries(Clementine PRIVATE Qt${QT_VERSION_MAJOR}::Widgets)
+qt_deploy_target(${PROJECT_NAME})
 
-# Qt for iOS sets MACOSX_BUNDLE_GUI_IDENTIFIER automatically since Qt 6.1.
-# If you are developing for iOS or macOS you should consider setting an
-# explicit, fixed bundle identifier manually though.
-if(${QT_VERSION} VERSION_LESS 6.1.0)
-  set(BUNDLE_ID_OPTION MACOSX_BUNDLE_GUI_IDENTIFIER com.example.Clementine)
-endif()
-set_target_properties(Clementine PROPERTIES
-    ${BUNDLE_ID_OPTION}
-    MACOSX_BUNDLE_BUNDLE_VERSION ${PROJECT_VERSION}
-    MACOSX_BUNDLE_SHORT_VERSION_STRING ${PROJECT_VERSION_MAJOR}.${PROJECT_VERSION_MINOR}
-    MACOSX_BUNDLE TRUE
-    WIN32_EXECUTABLE TRUE
-)
 
-include(GNUInstallDirs)
-install(TARGETS Clementine
-    BUNDLE DESTINATION .
-    LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
-    RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}
-)
-
-if(QT_VERSION_MAJOR EQUAL 6)
-    qt_finalize_executable(Clementine)
-endif()
