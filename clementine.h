@@ -2,7 +2,7 @@
 #define CLEMENTINE_H
 
 #include <QMainWindow>
-
+#include <QMessageBox>
 QT_BEGIN_NAMESPACE
 namespace Ui {
 class Clementine;
@@ -19,5 +19,15 @@ public:
 
 private:
     Ui::Clementine *ui;
+    QAction *addFileAction;
+    QAction *removeFileAction;
+    QAction *exitAction;
+
+
+private slots:
+    void onAddFile();
+    void onRemoveFile();
+    void onExit();
+
 };
 #endif // CLEMENTINE_H

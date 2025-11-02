@@ -207,7 +207,11 @@ C:/QT-repository/Clementine/build/Desktop_Qt_6_9_2_MSVC2022_64bit-Debug/Clementi
   C:/Qt/6.9.2/msvc2022_64/include/QtGui/qwindowdefs.h \
   C:/Qt/6.9.2/msvc2022_64/include/QtGui/qwindowdefs_win.h \
   C:/Qt/6.9.2/msvc2022_64/include/QtWidgets/QMainWindow \
+  C:/Qt/6.9.2/msvc2022_64/include/QtWidgets/QMessageBox \
+  C:/Qt/6.9.2/msvc2022_64/include/QtWidgets/qdialog.h \
+  C:/Qt/6.9.2/msvc2022_64/include/QtWidgets/qdialogbuttonbox.h \
   C:/Qt/6.9.2/msvc2022_64/include/QtWidgets/qmainwindow.h \
+  C:/Qt/6.9.2/msvc2022_64/include/QtWidgets/qmessagebox.h \
   C:/Qt/6.9.2/msvc2022_64/include/QtWidgets/qsizepolicy.h \
   C:/Qt/6.9.2/msvc2022_64/include/QtWidgets/qtabwidget.h \
   C:/Qt/6.9.2/msvc2022_64/include/QtWidgets/qtwidgets-config.h \
