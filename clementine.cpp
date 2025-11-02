@@ -20,6 +20,11 @@ Clementine::Clementine(QWidget *parent)
 
     initButtons(mainLayout);
     initLeft(mainLayout);
+    connect(this,&Clementine::sizeChanged,[&](){
+        auto new_width=(this->width()-70)/8*3;
+        auto new_height=this->height();
+        scrollarea->resize(new_width,new_height);
+    });
     initRight(mainLayout);
 
     ui->centralwidget->setLayout(mainLayout);
@@ -28,6 +33,11 @@ Clementine::Clementine(QWidget *parent)
 Clementine::~Clementine()
 {
     delete ui;
+}
+
+void Clementine::resizeEvent(QResizeEvent *event) {
+    QMainWindow::resizeEvent(event);
+    emit sizeChanged(event->size());
 }
 
 void Clementine::init(){
@@ -186,12 +196,42 @@ void Clementine::initButtons(QHBoxLayout *mainLayout){
 
 void Clementine::initLeft(QHBoxLayout *mainLayout){
     QWidget *Left = new QWidget();
-    Left->setStyleSheet("background-color: black;");
-    mainLayout->addWidget(Left,2);
+    Left->setStyleSheet("background-color: white;");
+    Left->setMinimumWidth(0);       // 允许最小宽度为0
+    Left->setMaximumWidth(QWIDGETSIZE_MAX); // 允许最大宽度无限
+    Left->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Preferred);
+     qDebug() << Left->width() << Qt::endl;
+    //QStackedLayout *LeftStackedLayout = new QStackedLayout;
+    this->initSearchArea(Left);
+
+
+    //Left->setLayout(LeftStackedLayout);
+    mainLayout->addWidget(Left,3);
 }
 
 void Clementine::initRight(QHBoxLayout *mainLayout){
     QWidget *Right = new QWidget();
     Right->setStyleSheet("background-color: blue;");
     mainLayout->addWidget(Right,5);
+}
+
+void Clementine::initSearchArea(QWidget* parent){
+    scrollarea=new QScrollArea(parent);
+    auto new_width=(this->width()-70)/8*3;
+    auto new_height=this->height();
+    scrollarea->resize(new_width,new_height);
+
+    QWidget* contentWidget =new QWidget(parent);
+    QVBoxLayout *sLayout=new QVBoxLayout(contentWidget);
+
+    for (int i = 0; i < 20; ++i) {
+        sLayout->addWidget(new QPushButton(QString("按钮 %1").arg(i + 1)));
+    }
+
+
+    contentWidget->setLayout(sLayout);
+    scrollarea->setWidget(contentWidget);
+    scrollarea->show();
+
+
 }
