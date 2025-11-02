@@ -10,5 +10,18 @@
         <file>QT-Icons/silence.png</file>
         <file>QT-Icons/stop.png</file>
         <file>QT-Icons/video.png</file>
+        <file>QT-Icons/clementine.png</file>
+    </qresource>
+    <qresource prefix="/buttonicons">
+        <file>QT-Icons/device.png</file>
+        <file>QT-Icons/internet.png</file>
+        <file>QT-Icons/media-repo.png</file>
+        <file>QT-Icons/music-info.png</file>
+        <file>QT-Icons/player-info.png</file>
+        <file>QT-Icons/playlist.png</file>
+        <file>QT-Icons/search.png</file>
+    </qresource>
+    <qresource prefix="/background">
+        <file>QT-Icons/ButtonBackground.webp</file>
     </qresource>
 </RCC>

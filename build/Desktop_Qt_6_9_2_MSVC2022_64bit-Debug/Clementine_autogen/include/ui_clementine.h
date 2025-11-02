@@ -29,13 +29,13 @@ public:
     {
         if (Clementine->objectName().isEmpty())
             Clementine->setObjectName("Clementine");
-        Clementine->resize(800, 600);
+        Clementine->resize(856, 601);
         centralwidget = new QWidget(Clementine);
         centralwidget->setObjectName("centralwidget");
         Clementine->setCentralWidget(centralwidget);
         menubar = new QMenuBar(Clementine);
         menubar->setObjectName("menubar");
-        menubar->setGeometry(QRect(0, 0, 800, 25));
+        menubar->setGeometry(QRect(0, 0, 856, 25));
         Clementine->setMenuBar(menubar);
         statusbar = new QStatusBar(Clementine);
         statusbar->setObjectName("statusbar");

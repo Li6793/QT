@@ -8,18 +8,32 @@ Clementine::Clementine(QWidget *parent)
     , ui(new Ui::Clementine)
 {
     ui->setupUi(this);
+    ui->centralwidget->setContentsMargins(0,0,0,0);
+    //ui->centralwidget->setStyleSheet("background-color: grey;");
 
-    // QMenuBar*menuBar=this->menuBar();
-
-
+    init();
     initFileBar();
 
+    QHBoxLayout *mainLayout = new QHBoxLayout();
+    mainLayout->setContentsMargins(0, 0, 0, 0);
+    mainLayout->setSpacing(0);
 
+    initButtons(mainLayout);
+    initLeft(mainLayout);
+    initRight(mainLayout);
+
+    ui->centralwidget->setLayout(mainLayout);
 }
 
 Clementine::~Clementine()
 {
     delete ui;
+}
+
+void Clementine::init(){
+    this->statusBar()->hide();
+    this->setStatusBar(nullptr);
+    setWindowIcon(QIcon(":/fileicons/QT-Icons/clementine.png"));
 }
 
 void Clementine::initFileBar(){
@@ -39,9 +53,9 @@ void Clementine::initFileBar(){
                            "}");
 
     struct ActionInfo {
-        QString text;       // 动作文本
-        QKeySequence shortcut; // 快捷键
-        QString tooltip;    // 提示文本
+        QString text;
+        QKeySequence shortcut;
+        QString tooltip;
         QString Icon;
     };
 
@@ -102,3 +116,82 @@ void Clementine::onActionTriggered()
     }
 }
 
+void Clementine::initButtons(QHBoxLayout *mainLayout){
+    QWidget*ButtonBox=new QWidget(this);
+    ButtonBox->setFixedWidth(70);
+    mainLayout->addWidget(ButtonBox,0);
+    ButtonBox->setObjectName("BB");
+    ButtonBox->setStyleSheet(R"(
+        #BB {
+            background-image: url(:/background/QT-Icons/ButtonBackground.webp);
+            background-repeat: no-repeat;
+            background-position: center;
+        }
+        QPushButton {
+            background-color: rgba(255, 255, 255, 150); /* 半透明白色背景 */
+            border: 1px solid #ccc;
+        }
+    )");
+
+    struct ButtonInfo{
+        QString icon;
+        QString text;
+    };
+
+    QVBoxLayout *ButtonBoxLayout = new QVBoxLayout(ButtonBox);
+    ButtonBoxLayout->setSpacing(0);
+    ButtonBoxLayout->setContentsMargins(0, 0, 0, 0);
+    QVector<ButtonInfo>buttons={
+        {":/buttonicons/QT-Icons/search.png","搜索"},
+        {":/buttonicons/QT-Icons/media-repo.png","媒体库"},
+        {":/fileicons/QT-Icons/open-folder.png","文件"},
+        {":/buttonicons/QT-Icons/playlist.png","Play-lists"},
+        {":/buttonicons/QT-Icons/internet.png","互联网"},
+        {":/buttonicons/QT-Icons/device.png","设备"},
+        {":/buttonicons/QT-Icons/music-info.png","歌曲信息"},
+        {":/buttonicons/QT-Icons/player-info.png","音乐人信息"}
+    };
+    for(const auto& button:buttons){
+        QPushButton* b = new QPushButton(this);
+        b->setFixedSize(70,55);
+        b->setStyleSheet("background-color:transparent");
+        QVBoxLayout* innerLayout = new QVBoxLayout(b);
+        innerLayout->setSpacing(5);
+        innerLayout->setContentsMargins(0, 5, 0, 5);
+        QLabel* iconLabel = new QLabel;
+
+
+
+
+
+        iconLabel->setPixmap(QIcon(button.icon).pixmap(32, 32));
+        iconLabel->setAlignment(Qt::AlignCenter);
+
+        QLabel* textLabel = new QLabel(button.text);
+        textLabel->setAlignment(Qt::AlignCenter);
+        textLabel->setStyleSheet(
+            "color: white;"
+            "font-weight: bold;"
+            "font-size: 14px;"
+            );
+
+        innerLayout->addWidget(iconLabel);
+        innerLayout->addWidget(textLabel);
+        b->setLayout(innerLayout);
+        ButtonBoxLayout->addWidget(b, 0, Qt::AlignTop);
+    }
+
+    ButtonBox->setLayout(ButtonBoxLayout);
+}
+
+void Clementine::initLeft(QHBoxLayout *mainLayout){
+    QWidget *Left = new QWidget();
+    Left->setStyleSheet("background-color: black;");
+    mainLayout->addWidget(Left,2);
+}
+
+void Clementine::initRight(QHBoxLayout *mainLayout){
+    QWidget *Right = new QWidget();
+    Right->setStyleSheet("background-color: blue;");
+    mainLayout->addWidget(Right,5);
+}

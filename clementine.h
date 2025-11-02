@@ -3,6 +3,9 @@
 
 #include <QMainWindow>
 #include <QMessageBox>
+#include <QPushButton>
+#include <QHBoxLayout>
+#include <QPainter>
 #include <QList>
 QT_BEGIN_NAMESPACE
 namespace Ui {
@@ -21,7 +24,11 @@ public:
 private:
     Ui::Clementine *ui;
     QList<QAction*> fileActions;
+    void init();
     void initFileBar();
+    void initButtons(QHBoxLayout *mainLayout);
+    void initLeft(QHBoxLayout *mainLayout);
+    void initRight(QHBoxLayout *mainLayout);
 
 
 private slots:
