@@ -68,6 +68,7 @@ qt_add_executable(${PROJECT_NAME}
     ${HEADERS}
     ${UIS}
     ${RESOURCES}
+    Icons.qrc
 )
 
 target_link_libraries(${PROJECT_NAME} PRIVATE
@@ -96,15 +97,12 @@ function(qt_deploy_target target)
                 "$ENV{QTDIR}/bin"
         )
         if(WINDEPLOYQT_EXE)
-            # message(STATUS "找到64位windeployqt: ${WINDEPLOYQT_EXE}")
 
             if(CMAKE_BUILD_TYPE STREQUAL "Debug" OR
                (DEFINED CMAKE_CONFIGURATION_TYPES AND "Debug" IN_LIST CMAKE_CONFIGURATION_TYPES))
                 set(DEPLOY_MODE --debug)
-                # message(STATUS "64位Debug模式：部署带d后缀的Qt库")
             else()
                 set(DEPLOY_MODE --release)
-                # message(STATUS "64位Release模式：部署不带d后缀的Qt库")
             endif()
 
             add_custom_command(TARGET ${target} POST_BUILD

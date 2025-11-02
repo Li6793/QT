@@ -3,6 +3,7 @@
 
 #include <QMainWindow>
 #include <QMessageBox>
+#include <QList>
 QT_BEGIN_NAMESPACE
 namespace Ui {
 class Clementine;
@@ -19,15 +20,13 @@ public:
 
 private:
     Ui::Clementine *ui;
-    QAction *addFileAction;
-    QAction *removeFileAction;
-    QAction *exitAction;
+    QList<QAction*> fileActions;
+    void initFileBar();
 
 
 private slots:
-    void onAddFile();
-    void onRemoveFile();
-    void onExit();
+
+    void onActionTriggered();
 
 };
 #endif // CLEMENTINE_H

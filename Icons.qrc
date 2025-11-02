@@ -1,0 +1,14 @@
+<RCC>
+    <qresource prefix="/fileicons">
+        <file>QT-Icons/exit.png</file>
+        <file>QT-Icons/next.png</file>
+        <file>QT-Icons/open-folder.png</file>
+        <file>QT-Icons/play.png</file>
+        <file>QT-Icons/podcast.png</file>
+        <file>QT-Icons/prefer.png</file>
+        <file>QT-Icons/prev.png</file>
+        <file>QT-Icons/silence.png</file>
+        <file>QT-Icons/stop.png</file>
+        <file>QT-Icons/video.png</file>
+    </qresource>
+</RCC>

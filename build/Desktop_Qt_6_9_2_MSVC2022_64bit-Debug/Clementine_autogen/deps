@@ -56,6 +56,7 @@ Clementine_autogen/timestamp: \
 	C:/Program\ Files/Microsoft\ Visual\ Studio/2022/Community/VC/Tools/MSVC/14.44.35207/include/yvals.h \
 	C:/Program\ Files/Microsoft\ Visual\ Studio/2022/Community/VC/Tools/MSVC/14.44.35207/include/yvals_core.h \
 	C:/QT-repository/Clementine/CMakeLists.txt \
+	C:/QT-repository/Clementine/Icons.qrc \
 	C:/QT-repository/Clementine/build/Desktop_Qt_6_9_2_MSVC2022_64bit-Debug/.qtc/package-manager/auto-setup.cmake \
 	C:/QT-repository/Clementine/build/Desktop_Qt_6_9_2_MSVC2022_64bit-Debug/.qtc/package-manager/maintenance_tool_provider.cmake \
 	C:/QT-repository/Clementine/build/Desktop_Qt_6_9_2_MSVC2022_64bit-Debug/CMakeFiles/3.30.5/CMakeCXXCompiler.cmake \
@@ -64,6 +65,7 @@ Clementine_autogen/timestamp: \
 	C:/QT-repository/Clementine/clementine.cpp \
 	C:/QT-repository/Clementine/clementine.h \
 	C:/QT-repository/Clementine/main.cpp \
+	C:/Qt/6.9.2/msvc2022_64/include/QtCore/QList \
 	C:/Qt/6.9.2/msvc2022_64/include/QtCore/q17memory.h \
 	C:/Qt/6.9.2/msvc2022_64/include/QtCore/q20functional.h \
 	C:/Qt/6.9.2/msvc2022_64/include/QtCore/q20iterator.h \

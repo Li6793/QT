@@ -55,6 +55,7 @@ C:/QT-repository/Clementine/build/Desktop_Qt_6_9_2_MSVC2022_64bit-Debug/Clementi
   C:/Program\ Files/Microsoft\ Visual\ Studio/2022/Community/VC/Tools/MSVC/14.44.35207/include/version \
   C:/Program\ Files/Microsoft\ Visual\ Studio/2022/Community/VC/Tools/MSVC/14.44.35207/include/yvals.h \
   C:/Program\ Files/Microsoft\ Visual\ Studio/2022/Community/VC/Tools/MSVC/14.44.35207/include/yvals_core.h \
+  C:/Qt/6.9.2/msvc2022_64/include/QtCore/QList \
   C:/Qt/6.9.2/msvc2022_64/include/QtCore/q17memory.h \
   C:/Qt/6.9.2/msvc2022_64/include/QtCore/q20functional.h \
   C:/Qt/6.9.2/msvc2022_64/include/QtCore/q20iterator.h \
