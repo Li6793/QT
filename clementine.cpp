@@ -19,6 +19,7 @@ Clementine::Clementine(QWidget *parent)
     mainLayout->setSpacing(0);
 
     initButtons(mainLayout);
+
     initLeft(mainLayout);
     connect(this,&Clementine::sizeChanged,[&](){
         auto new_width=(this->width()-70)/8*3;
@@ -170,10 +171,6 @@ void Clementine::initButtons(QHBoxLayout *mainLayout){
         innerLayout->setContentsMargins(0, 5, 0, 5);
         QLabel* iconLabel = new QLabel;
 
-
-
-
-
         iconLabel->setPixmap(QIcon(button.icon).pixmap(32, 32));
         iconLabel->setAlignment(Qt::AlignCenter);
 
@@ -197,15 +194,13 @@ void Clementine::initButtons(QHBoxLayout *mainLayout){
 void Clementine::initLeft(QHBoxLayout *mainLayout){
     QWidget *Left = new QWidget();
     Left->setStyleSheet("background-color: white;");
-    Left->setMinimumWidth(0);       // 允许最小宽度为0
-    Left->setMaximumWidth(QWIDGETSIZE_MAX); // 允许最大宽度无限
     Left->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Preferred);
-     qDebug() << Left->width() << Qt::endl;
-    //QStackedLayout *LeftStackedLayout = new QStackedLayout;
-    this->initSearchArea(Left);
 
+    QStackedLayout *LeftStackedLayout = new QStackedLayout;
+    this->initSearchArea(LeftStackedLayout);
+    this->initMediaRepo(LeftStackedLayout);
 
-    //Left->setLayout(LeftStackedLayout);
+    Left->setLayout(LeftStackedLayout);
     mainLayout->addWidget(Left,3);
 }
 
@@ -215,23 +210,180 @@ void Clementine::initRight(QHBoxLayout *mainLayout){
     mainLayout->addWidget(Right,5);
 }
 
-void Clementine::initSearchArea(QWidget* parent){
-    scrollarea=new QScrollArea(parent);
+void Clementine::initSearchArea(QStackedLayout *layout){
+    scrollarea=new QScrollArea(this);
+    scrollarea->setWidgetResizable(true);
+
+    //scrollarea->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
+
     auto new_width=(this->width()-70)/8*3;
     auto new_height=this->height();
     scrollarea->resize(new_width,new_height);
 
-    QWidget* contentWidget =new QWidget(parent);
+    QWidget* contentWidget =new QWidget(scrollarea);
+    contentWidget->setStyleSheet("background-color:white");
     QVBoxLayout *sLayout=new QVBoxLayout(contentWidget);
+    sLayout->setContentsMargins(0, 0, 0, 0);
 
-    for (int i = 0; i < 20; ++i) {
-        sLayout->addWidget(new QPushButton(QString("按钮 %1").arg(i + 1)));
+    //文字介绍
+
+    QWidget*recommend=new QWidget(scrollarea);
+    QVBoxLayout *relayout = new QVBoxLayout(recommend);
+    recommend->setStyleSheet("background-color:white;");
+    recommend->setFixedHeight(150);
+    relabel = new QLabel("Enter search terms above to find music on your computer and on the internet", recommend);
+    relabel->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Preferred);
+    relabel->setWordWrap(true);
+    relayout->addWidget(relabel);
+    recommend->setLayout(relayout);
+
+    relabel->setAlignment(Qt::AlignHCenter | Qt::AlignVCenter);
+    sLayout->addWidget(recommend);
+    //文字介绍 end
+
+    //寻找乐曲
+    QWidget* linkarea=new QWidget(scrollarea);
+    linkarea->setMinimumHeight(100);
+    QVBoxLayout* linkLayout=new QVBoxLayout(linkarea);
+    QLabel *findmusic=new QLabel("Clementine will find music in:",linkarea);
+    findmusic->setWordWrap(true);
+    linkLayout->addWidget(findmusic);
+    struct labelinfo{
+        QString icon;
+        QString text;
+    };
+    QVector<labelinfo>labels={
+        {":/findmusics/QT-Icons/mediarepo.png","媒体库"},
+        {":/findmusics/QT-Icons/classicalradio.png","ClassicalRadio"},
+        {":/findmusics/QT-Icons/digitallyimported.png","DigitallyImported"},
+        {":/findmusics/QT-Icons/intergalactic.png","Intergalactic FM"},
+        {":/findmusics/QT-Icons/jazzradio.png","JazzRadio"},
+        {":/findmusics/QT-Icons/magnatune.png","Magnatune"},
+        {":/findmusics/QT-Icons/radiobrowser.png","Radio-Browser.info"},
+        {":/findmusics/QT-Icons/Radiotunes.png","RadioTunes"},
+        {":/findmusics/QT-Icons/Rockradio.png","RockRadio"},
+        {":/findmusics/QT-Icons/流媒体.png","您的电台流媒体"},
+        {":/findmusics/QT-Icons/Soma.png","SomaFM"},
+        {":/findmusics/QT-Icons/subsonic.png","Subsonic"},
+    };
+
+    for(const auto &label:labels){
+        QWidget *itemWidget = new QWidget(linkarea);
+        QHBoxLayout *itemLayout = new QHBoxLayout(itemWidget);
+        itemLayout->setContentsMargins(0, 0, 0, 0);
+        itemLayout->setSpacing(8);
+        QLabel *iconLabel = new QLabel(itemWidget);
+        QPixmap pixmap(label.icon);
+        if (pixmap.isNull()) {
+            iconLabel->setText("?");
+        } else {
+            pixmap = pixmap.scaled(16, 16, Qt::KeepAspectRatio, Qt::SmoothTransformation);
+            iconLabel->setPixmap(pixmap);
+        }
+        QLabel *textLabel = new QLabel(label.text, itemWidget);
+        textLabel->setAlignment(Qt::AlignVCenter);
+        textLabel->setWordWrap(true);
+        itemLayout->addWidget(iconLabel);
+        itemLayout->addWidget(textLabel);
+        itemLayout->addStretch();
+        linkLayout->addWidget(itemWidget);
     }
 
+    QLabel *lost=new QLabel("But these sources are disabled:",linkarea);
+    lost->setWordWrap(true);
+    linkLayout->addWidget(lost);
+
+    struct loginfo{
+        QString name;
+        QString icon;
+        QString logstatus;
+    };
+
+    QList<loginfo>list={
+        {"Box",":/nameicons/QT-Icons/Box.png","Not logged in"},
+        {"Seafile",":/nameicons/QT-Icons/seafile.png","Not logged in"},
+        {"Dropbox",":/nameicons/QT-Icons/dropbox.png","Not logged in"},
+        {"Google Drive",":/nameicons/QT-Icons/google-drive.png","Not logged in"},
+        {"Icecast",":/nameicons/QT-Icons/ice-cast.png","已禁用"},
+        {"Jamendo",":/nameicons/QT-Icons/jamendo.png","已禁用"},
+        {"OneDrive",":/nameicons/QT-Icons/onedrive.png","Not logged in"}
+    };
+
+    QWidget*disabled=new QWidget(linkarea);
+    QHBoxLayout *separate=new QHBoxLayout(disabled);
+    QWidget*namelist=new QWidget(disabled);
+    namelist->setStyleSheet("background-color:white");
+    QVBoxLayout *leftLayout=new QVBoxLayout(namelist);
+
+    QWidget*logstatuslist=new QWidget(disabled);
+    logstatuslist->setStyleSheet("background-color:white");
+    QVBoxLayout *rightLayout=new QVBoxLayout(logstatuslist);
+    for(const auto&info:list){
+        QWidget*webname=new QWidget(namelist);
+        QHBoxLayout *nameLayout=new QHBoxLayout(webname);
+        nameLayout->setContentsMargins(0, 0, 0, 0);
+        nameLayout->setSpacing(8);
+        QLabel *iconLabel = new QLabel(webname);
+        QPixmap pixmap(info.icon);
+        if (pixmap.isNull()) {
+            iconLabel->setText("?");
+        } else {
+            pixmap = pixmap.scaled(16, 16, Qt::KeepAspectRatio, Qt::SmoothTransformation);
+            iconLabel->setPixmap(pixmap);
+        }
+        QLabel *textLabel = new QLabel(info.name, webname);
+        textLabel->setAlignment(Qt::AlignVCenter);
+        textLabel->setWordWrap(true);
+        nameLayout->addWidget(iconLabel);
+        nameLayout->addWidget(textLabel);
+        nameLayout->addStretch();
+
+        webname->setLayout(nameLayout);
+        leftLayout->addWidget(webname);
+    }
+
+    for(const auto&info:list){
+        QWidget*status=new QWidget(namelist);
+        QHBoxLayout *statusLayout=new QHBoxLayout(status);
+        statusLayout->setContentsMargins(0, 0, 0, 0);
+        statusLayout->setSpacing(8);
+        QLabel *iconLabel = new QLabel(status);
+        QPixmap pixmap(":/nameicons/QT-Icons/warning.png");
+        if (pixmap.isNull()) {
+            iconLabel->setText("?");
+        } else {
+            pixmap = pixmap.scaled(16, 16, Qt::KeepAspectRatio, Qt::SmoothTransformation);
+            iconLabel->setPixmap(pixmap);
+        }
+        QLabel *textLabel = new QLabel(info.logstatus, status);
+        textLabel->setAlignment(Qt::AlignVCenter);
+        textLabel->setWordWrap(true);
+        statusLayout->addWidget(iconLabel);
+        statusLayout->addWidget(textLabel);
+        statusLayout->addStretch();
+
+        status->setLayout(statusLayout);
+        rightLayout->addWidget(status);
+    }
+    namelist->setLayout(leftLayout);
+    logstatuslist->setLayout(rightLayout);
+    separate->addWidget(namelist);
+    separate->addWidget(logstatuslist);
+    disabled->setLayout(separate);
+
+    linkLayout->addWidget(disabled);
+    linkarea->setLayout(linkLayout);
+    sLayout->addWidget(linkarea);
+
+    //寻找乐曲 end
 
     contentWidget->setLayout(sLayout);
     scrollarea->setWidget(contentWidget);
+    layout->addWidget(scrollarea);
     scrollarea->show();
+}
 
-
+void Clementine::initMediaRepo(QStackedLayout *layout){
+    QWidget*MediaRepo=new QWidget(this);
+    layout->addWidget(MediaRepo);
 }

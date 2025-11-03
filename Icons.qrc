@@ -24,4 +24,29 @@
     <qresource prefix="/background">
         <file>QT-Icons/ButtonBackground.webp</file>
     </qresource>
+    <qresource prefix="/findmusics">
+        <file>QT-Icons/classicalradio.png</file>
+        <file>QT-Icons/digitallyimported.png</file>
+        <file>QT-Icons/intergalactic.png</file>
+        <file>QT-Icons/jazzradio.png</file>
+        <file>QT-Icons/jxs.png</file>
+        <file>QT-Icons/magnatune.png</file>
+        <file>QT-Icons/radiobrowser.png</file>
+        <file>QT-Icons/Radiotunes.png</file>
+        <file>QT-Icons/Soma.png</file>
+        <file>QT-Icons/subsonic.png</file>
+        <file>QT-Icons/流媒体.png</file>
+        <file>QT-Icons/Rockradio.png</file>
+        <file>QT-Icons/mediarepo.png</file>
+    </qresource>
+    <qresource prefix="/nameicons">
+        <file>QT-Icons/Box.png</file>
+        <file>QT-Icons/dropbox.png</file>
+        <file>QT-Icons/google-drive.png</file>
+        <file>QT-Icons/ice-cast.png</file>
+        <file>QT-Icons/jamendo.png</file>
+        <file>QT-Icons/onedrive.png</file>
+        <file>QT-Icons/seafile.png</file>
+        <file>QT-Icons/warning.png</file>
+    </qresource>
 </RCC>

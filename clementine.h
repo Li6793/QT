@@ -27,14 +27,17 @@ public:
 
 private:
     Ui::Clementine *ui;
+    QLabel *relabel;
     QList<QAction*> fileActions;
+    //QList<QLabel*>
     void init();
     void initFileBar();
     void initButtons(QHBoxLayout *mainLayout);
     void initLeft(QHBoxLayout *mainLayout);
     void initRight(QHBoxLayout *mainLayout);
 
-    void initSearchArea(QWidget* parent);
+    void initSearchArea(QStackedLayout *layout);
+    void initMediaRepo(QStackedLayout *layout);
 
 signals:
     void sizeChanged(const QSize &newSize);
