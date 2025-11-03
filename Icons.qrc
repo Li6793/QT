@@ -23,6 +23,7 @@
     </qresource>
     <qresource prefix="/background">
         <file>QT-Icons/ButtonBackground.webp</file>
+        <file>QT-Icons/right-search.png</file>
     </qresource>
     <qresource prefix="/findmusics">
         <file>QT-Icons/classicalradio.png</file>

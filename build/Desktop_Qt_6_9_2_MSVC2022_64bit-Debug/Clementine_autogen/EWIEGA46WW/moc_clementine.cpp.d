@@ -231,6 +231,9 @@ C:/QT-repository/Clementine/build/Desktop_Qt_6_9_2_MSVC2022_64bit-Debug/Clementi
   C:/Qt/6.9.2/msvc2022_64/include/QtGui/qrgba64.h \
   C:/Qt/6.9.2/msvc2022_64/include/QtGui/qscreen.h \
   C:/Qt/6.9.2/msvc2022_64/include/QtGui/qscreen_platform.h \
+  C:/Qt/6.9.2/msvc2022_64/include/QtGui/qtextcursor.h \
+  C:/Qt/6.9.2/msvc2022_64/include/QtGui/qtextdocument.h \
+  C:/Qt/6.9.2/msvc2022_64/include/QtGui/qtextformat.h \
   C:/Qt/6.9.2/msvc2022_64/include/QtGui/qtextoption.h \
   C:/Qt/6.9.2/msvc2022_64/include/QtGui/qtgui-config.h \
   C:/Qt/6.9.2/msvc2022_64/include/QtGui/qtguiexports.h \
@@ -241,6 +244,7 @@ C:/QT-repository/Clementine/build/Desktop_Qt_6_9_2_MSVC2022_64bit-Debug/Clementi
   C:/Qt/6.9.2/msvc2022_64/include/QtGui/qwindowdefs.h \
   C:/Qt/6.9.2/msvc2022_64/include/QtGui/qwindowdefs_win.h \
   C:/Qt/6.9.2/msvc2022_64/include/QtWidgets/QHBoxLayout \
+  C:/Qt/6.9.2/msvc2022_64/include/QtWidgets/QLineEdit \
   C:/Qt/6.9.2/msvc2022_64/include/QtWidgets/QMainWindow \
   C:/Qt/6.9.2/msvc2022_64/include/QtWidgets/QMessageBox \
   C:/Qt/6.9.2/msvc2022_64/include/QtWidgets/QPushButton \
@@ -255,6 +259,7 @@ C:/QT-repository/Clementine/build/Desktop_Qt_6_9_2_MSVC2022_64bit-Debug/Clementi
   C:/Qt/6.9.2/msvc2022_64/include/QtWidgets/qgridlayout.h \
   C:/Qt/6.9.2/msvc2022_64/include/QtWidgets/qlayout.h \
   C:/Qt/6.9.2/msvc2022_64/include/QtWidgets/qlayoutitem.h \
+  C:/Qt/6.9.2/msvc2022_64/include/QtWidgets/qlineedit.h \
   C:/Qt/6.9.2/msvc2022_64/include/QtWidgets/qmainwindow.h \
   C:/Qt/6.9.2/msvc2022_64/include/QtWidgets/qmessagebox.h \
   C:/Qt/6.9.2/msvc2022_64/include/QtWidgets/qpushbutton.h \

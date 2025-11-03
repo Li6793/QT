@@ -5,6 +5,7 @@
 #include <QMessageBox>
 #include <QPushButton>
 #include <QHBoxLayout>
+#include <QLineEdit>
 #include <QPainter>
 #include <QStackedLayout>
 #include <QResizeEvent>
@@ -24,12 +25,34 @@ public:
     Clementine(QWidget *parent = nullptr);
     ~Clementine();
     QScrollArea *scrollarea;
+    struct ButtonInfo{
+        QString icon;
+        QString text;
+    };
+    QVector<ButtonInfo>buttons;
+    QVector<QPushButton*>bts;
+    struct labelinfo{
+        QString icon;
+        QString text;
+    };
+    QVector<labelinfo>labels;
+    struct loginfo{
+        QString name;
+        QString icon;
+        QString logstatus;
+    };
+    QList<loginfo>list;
+
+    QStackedLayout *LeftStackedLayout;
 
 private:
     Ui::Clementine *ui;
     QLabel *relabel;
+    QWidget *Left;
+    QWidget*searchKB;
+    QWidget* nosearch;
+    QLineEdit* searchBox;
     QList<QAction*> fileActions;
-    //QList<QLabel*>
     void init();
     void initFileBar();
     void initButtons(QHBoxLayout *mainLayout);

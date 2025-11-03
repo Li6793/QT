@@ -18,6 +18,8 @@ find_package(Qt6 REQUIRED COMPONENTS
     SerialPort
 )
 
+include_directories(include)
+
 
 set(OUTPUT_ROOT ${CMAKE_SOURCE_DIR}/output)
 
@@ -69,6 +71,7 @@ qt_add_executable(${PROJECT_NAME}
     ${UIS}
     ${RESOURCES}
     Icons.qrc
+    output/windows/Debug/bin/generic/qtuiotouchplugind.dll output/windows/Debug/bin/iconengines/qsvgicond.dll output/windows/Debug/bin/imageformats/qgifd.dll output/windows/Debug/bin/imageformats/qicnsd.dll output/windows/Debug/bin/imageformats/qicod.dll output/windows/Debug/bin/imageformats/qjpegd.dll output/windows/Debug/bin/imageformats/qpdfd.dll output/windows/Debug/bin/imageformats/qsvgd.dll output/windows/Debug/bin/imageformats/qtgad.dll output/windows/Debug/bin/imageformats/qtiffd.dll output/windows/Debug/bin/imageformats/qwbmpd.dll output/windows/Debug/bin/imageformats/qwebpd.dll output/windows/Debug/bin/networkinformation/qnetworklistmanagerd.dll output/windows/Debug/bin/platforms/qwindowsd.dll output/windows/Debug/bin/styles/qmodernwindowsstyled.dll output/windows/Debug/bin/tls/qcertonlybackendd.dll output/windows/Debug/bin/tls/qschannelbackendd.dll output/windows/Debug/bin/translations/qt_ar.qm output/windows/Debug/bin/translations/qt_bg.qm output/windows/Debug/bin/translations/qt_ca.qm output/windows/Debug/bin/translations/qt_cs.qm output/windows/Debug/bin/translations/qt_da.qm output/windows/Debug/bin/translations/qt_de.qm output/windows/Debug/bin/translations/qt_en.qm output/windows/Debug/bin/translations/qt_es.qm output/windows/Debug/bin/translations/qt_fa.qm output/windows/Debug/bin/translations/qt_fi.qm output/windows/Debug/bin/translations/qt_fr.qm output/windows/Debug/bin/translations/qt_gd.qm output/windows/Debug/bin/translations/qt_he.qm output/windows/Debug/bin/translations/qt_hr.qm output/windows/Debug/bin/translations/qt_hu.qm output/windows/Debug/bin/translations/qt_it.qm output/windows/Debug/bin/translations/qt_ja.qm output/windows/Debug/bin/translations/qt_ka.qm output/windows/Debug/bin/translations/qt_ko.qm output/windows/Debug/bin/translations/qt_lg.qm output/windows/Debug/bin/translations/qt_lv.qm output/windows/Debug/bin/translations/qt_nl.qm output/windows/Debug/bin/translations/qt_nn.qm output/windows/Debug/bin/translations/qt_pl.qm output/windows/Debug/bin/translations/qt_pt_BR.qm output/windows/Debug/bin/translations/qt_ru.qm output/windows/Debug/bin/translations/qt_sk.qm output/windows/Debug/bin/translations/qt_sv.qm output/windows/Debug/bin/translations/qt_tr.qm output/windows/Debug/bin/translations/qt_uk.qm output/windows/Debug/bin/translations/qt_zh_CN.qm output/windows/Debug/bin/translations/qt_zh_TW.qm output/windows/Debug/bin/Clementine.exe output/windows/Debug/bin/Clementine.ilk output/windows/Debug/bin/Clementine.pdb output/windows/Debug/bin/d3dcompiler_47.dll output/windows/Debug/bin/dxcompiler.dll output/windows/Debug/bin/dxil.dll output/windows/Debug/bin/opengl32sw.dll output/windows/Debug/bin/Qt6Cored.dll output/windows/Debug/bin/Qt6Guid.dll output/windows/Debug/bin/Qt6Networkd.dll output/windows/Debug/bin/Qt6Pdfd.dll output/windows/Debug/bin/Qt6Svgd.dll output/windows/Debug/bin/Qt6Widgetsd.dll
 )
 
 target_link_libraries(${PROJECT_NAME} PRIVATE

@@ -9,7 +9,6 @@ Clementine::Clementine(QWidget *parent)
 {
     ui->setupUi(this);
     ui->centralwidget->setContentsMargins(0,0,0,0);
-    //ui->centralwidget->setStyleSheet("background-color: grey;");
 
     init();
     initFileBar();
@@ -20,12 +19,17 @@ Clementine::Clementine(QWidget *parent)
 
     initButtons(mainLayout);
 
-    initLeft(mainLayout);
-    connect(this,&Clementine::sizeChanged,[&](){
-        auto new_width=(this->width()-70)/8*3;
-        auto new_height=this->height();
-        scrollarea->resize(new_width,new_height);
+
+    connect(bts[0],&QPushButton::clicked,[&](){
+        this->LeftStackedLayout->setCurrentIndex(0);
     });
+    connect(bts[1],&QPushButton::clicked,[&](){
+        this->LeftStackedLayout->setCurrentIndex(1);
+    });
+
+
+    initLeft(mainLayout);
+
     initRight(mainLayout);
 
     ui->centralwidget->setLayout(mainLayout);
@@ -144,15 +148,11 @@ void Clementine::initButtons(QHBoxLayout *mainLayout){
         }
     )");
 
-    struct ButtonInfo{
-        QString icon;
-        QString text;
-    };
 
     QVBoxLayout *ButtonBoxLayout = new QVBoxLayout(ButtonBox);
     ButtonBoxLayout->setSpacing(0);
     ButtonBoxLayout->setContentsMargins(0, 0, 0, 0);
-    QVector<ButtonInfo>buttons={
+    buttons={
         {":/buttonicons/QT-Icons/search.png","搜索"},
         {":/buttonicons/QT-Icons/media-repo.png","媒体库"},
         {":/fileicons/QT-Icons/open-folder.png","文件"},
@@ -185,6 +185,7 @@ void Clementine::initButtons(QHBoxLayout *mainLayout){
         innerLayout->addWidget(iconLabel);
         innerLayout->addWidget(textLabel);
         b->setLayout(innerLayout);
+        bts.push_back(b);
         ButtonBoxLayout->addWidget(b, 0, Qt::AlignTop);
     }
 
@@ -192,15 +193,38 @@ void Clementine::initButtons(QHBoxLayout *mainLayout){
 }
 
 void Clementine::initLeft(QHBoxLayout *mainLayout){
-    QWidget *Left = new QWidget();
-    Left->setStyleSheet("background-color: white;");
+    Left = new QWidget();
+    Left->setStyleSheet("background-color: rgb(240,240,240);");
     Left->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Preferred);
+    QVBoxLayout* searchLayout=new QVBoxLayout(Left);
+    auto new_width=(this->width()-70)/8*3;
+    auto new_height=this->height();
+    searchBox=new QLineEdit(this);
+    searchBox->setPlaceholderText("请在此输入关键词");
+    searchBox->resize(new_width-50,20);
 
-    QStackedLayout *LeftStackedLayout = new QStackedLayout;
+    searchKB=new QWidget(this);
+    QHBoxLayout* par=new QHBoxLayout(searchKB);
+    QPushButton*consearch=new QPushButton(searchKB);
+    consearch->setIcon(QIcon(":/background/QT-Icons/right-search.png"));
+    consearch->setFixedSize(20,20);
+    par->addWidget(searchBox);
+    par->addWidget(consearch);
+    searchKB->resize(new_width,30);
+    searchKB->setLayout(par);
+    searchLayout->addWidget(searchKB);
+
+    //searchLayout->addWidget(searchBox);
+
+    nosearch=new QWidget(Left);
+    nosearch->resize(new_width,new_height-40);
+    nosearch->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Preferred);
+    LeftStackedLayout = new QStackedLayout(nosearch);
     this->initSearchArea(LeftStackedLayout);
-    this->initMediaRepo(LeftStackedLayout);
-
-    Left->setLayout(LeftStackedLayout);
+    this->initMediaRepo(LeftStackedLayout);//------------------------
+    nosearch->setLayout(LeftStackedLayout);
+    searchLayout->addWidget(nosearch);
+    Left->setLayout(searchLayout);
     mainLayout->addWidget(Left,3);
 }
 
@@ -211,14 +235,54 @@ void Clementine::initRight(QHBoxLayout *mainLayout){
 }
 
 void Clementine::initSearchArea(QStackedLayout *layout){
-    scrollarea=new QScrollArea(this);
+    scrollarea=new QScrollArea(nosearch);
     scrollarea->setWidgetResizable(true);
+    scrollarea->setMaximumHeight(600);
+    scrollarea->setStyleSheet(R"(
+        QScrollBar:vertical {
+            border: none;
+            background: #f0f0f0;
+            width: 8px;
+            margin: 0px;
+        }
 
-    //scrollarea->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
+        QScrollBar::handle:vertical {
+            background: #c0c0c0;
+            border-radius: 4px;
+            min-height: 40px;
+        }
+
+        QScrollBar::handle:vertical:hover {
+            background: #a0a0a0;
+        }
+
+        QScrollBar::handle:vertical:pressed {
+            background: #808080;
+        }
+
+        QScrollBar::sub-line:vertical {
+            border: none;
+            background: none;
+        }
+
+        QScrollBar::add-line:vertical {
+            border: none;
+            background: none;
+        }
+
+        QScrollBar::background:vertical {
+            background: #f0f0f0;
+        }
+
+        QScrollBar:horizontal {
+            height: 0px;
+            visibility: hidden;
+        }
+    )");
 
     auto new_width=(this->width()-70)/8*3;
     auto new_height=this->height();
-    scrollarea->resize(new_width,new_height);
+    scrollarea->resize(new_width,new_height-40);
 
     QWidget* contentWidget =new QWidget(scrollarea);
     contentWidget->setStyleSheet("background-color:white");
@@ -248,11 +312,7 @@ void Clementine::initSearchArea(QStackedLayout *layout){
     QLabel *findmusic=new QLabel("Clementine will find music in:",linkarea);
     findmusic->setWordWrap(true);
     linkLayout->addWidget(findmusic);
-    struct labelinfo{
-        QString icon;
-        QString text;
-    };
-    QVector<labelinfo>labels={
+    labels={
         {":/findmusics/QT-Icons/mediarepo.png","媒体库"},
         {":/findmusics/QT-Icons/classicalradio.png","ClassicalRadio"},
         {":/findmusics/QT-Icons/digitallyimported.png","DigitallyImported"},
@@ -264,7 +324,7 @@ void Clementine::initSearchArea(QStackedLayout *layout){
         {":/findmusics/QT-Icons/Rockradio.png","RockRadio"},
         {":/findmusics/QT-Icons/流媒体.png","您的电台流媒体"},
         {":/findmusics/QT-Icons/Soma.png","SomaFM"},
-        {":/findmusics/QT-Icons/subsonic.png","Subsonic"},
+        {":/findmusics/QT-Icons/subsonic.png","Subsonic"}
     };
 
     for(const auto &label:labels){
@@ -293,13 +353,9 @@ void Clementine::initSearchArea(QStackedLayout *layout){
     lost->setWordWrap(true);
     linkLayout->addWidget(lost);
 
-    struct loginfo{
-        QString name;
-        QString icon;
-        QString logstatus;
-    };
 
-    QList<loginfo>list={
+
+    list={
         {"Box",":/nameicons/QT-Icons/Box.png","Not logged in"},
         {"Seafile",":/nameicons/QT-Icons/seafile.png","Not logged in"},
         {"Dropbox",":/nameicons/QT-Icons/dropbox.png","Not logged in"},
@@ -384,6 +440,7 @@ void Clementine::initSearchArea(QStackedLayout *layout){
 }
 
 void Clementine::initMediaRepo(QStackedLayout *layout){
-    QWidget*MediaRepo=new QWidget(this);
+    QWidget*MediaRepo=new QWidget(nosearch);
+    MediaRepo->setStyleSheet("background-color:white;");
     layout->addWidget(MediaRepo);
 }
